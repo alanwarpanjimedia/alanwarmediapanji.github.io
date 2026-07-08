@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengumuman Hasil Tes Santri</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#1fa64a,#6dd5fa);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.container{
+    width:100%;
+    max-width:800px;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    overflow:hidden;
+}
+
+.header{
+    background:linear-gradient(to right,#0f9b0f,#38bdf8);
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+.header h1{
+    font-size:28px;
+}
+
+.content{
+    padding:30px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border-radius:10px;
+    border:2px solid #ddd;
+    margin-top:15px;
+    font-size:17px;
+}
+
+button{
+    width:100%;
+    margin-top:15px;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#16a34a;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#0f8a3d;
+}
+
+.card{
+    display:none;
+    margin-top:30px;
+    background:#f8fafc;
+    border-left:6px solid #16a34a;
+    border-radius:10px;
+    padding:20px;
+}
+
+.card h2{
+    color:#16a34a;
+    margin-bottom:15px;
+}
+
+.info{
+    font-size:18px;
+    margin:10px 0;
+}
+
+.badge{
+    display:inline-block;
+    padding:8px 15px;
+    border-radius:30px;
+    color:white;
+    font-weight:bold;
+}
+
+.lulus{
+    background:#16a34a;
+}
+
+.tahfidz{
+    background:goldenrod;
+}
+
+.table-title{
+    margin-top:30px;
+    margin-bottom:15px;
+    color:#0f9b0f;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#16a34a;
+    color:white;
+    padding:10px;
+}
+
+table td{
+    padding:10px;
+    border:1px solid #ddd;
+    text-align:center;
+}
+
+.notfound{
+    color:red;
+    margin-top:15px;
+    font-weight:bold;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>PENGUMUMAN HASIL TES SANTRI BARU</h1>
+<p>Pondok Pesantren Al-Anwar</p>
+</div>
+
+<div class="content">
+
+<label><b>Masukkan Nama Santri</b></label>
+
+<input type="text" id="nama" placeholder="Contoh : Ahmad Fauzi">
+
+<button onclick="cekData()">Lihat Hasil</button>
+
+<p id="pesan" class="notfound"></p>
+
+<div class="card" id="hasil">
+
+<h2>Hasil Kelulusan</h2>
+
+<div class="info"><b>Nama :</b> <span id="namaSantri"></span></div>
+
+<div class="info"><b>Nilai :</b> <span id="nilaiSantri"></span></div>
+
+<div class="info"><b>Keterangan :</b>
+<span id="keterangan"></span>
+</div>
+
+<h3 class="table-title">Daftar Santri Yang Lulus</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>No</th>
+<th>Nama</th>
+<th>Nilai</th>
+<th>Keterangan</th>
+</tr>
+
+</thead>
+
+<tbody id="tabelLulus"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const santri=[
+
+{
+nama:"Shofiyy Atul Mahmudah",
+nilai:90,
+keterangan:"LULUS"
+},
+{
+nama:"Dwi Lutfia Zahra",
+nilai:95,
+keterangan:"LULUS TAHFIDZ"
+},
+{
+nama:"Muhammad Rizky",
+nilai:88,
+keterangan:"LULUS"
+},
+{ 
+nama:"Luluk Rofi'atul Hasanah", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Ratih Az-Zahra", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Syariatul Afkaryyah", 
+nilai:85, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Aqila Nur Syafa", 
+nilai:84, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Fitriyani", 
+nilai:86, 
+keterangan:"LULUS"
+},
+{ 
+nama:"Nazwa Amaliya", 
+nilai:85, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Nabila Nur Hafizah", 
+nilai:83, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Siti Fatimatuz Zahra", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Diyana Wafian Nisa", 
+nilai:83,
+keterangan:"LULUS" 
+},
+{ 
+nama:"Asma Nurdiyah", 
+nilai:87, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Suci Rahmadani", 
+nilai:85, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Yunia Fatmawati", 
+nilai:90, 
+keterangan:"LULUS TAHFIDZ"
+},
+{ 
+nama:"Annisa Tumunifa", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{
+nama:"Fatimatuz Zahra", 
+nilai:85, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Shafa Wafiqoh", 
+nilai:84, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Indah Kurniawati", 
+nilai:84, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Evi Azwa Kamila", 
+nilai:88, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Rani Atu Jannah", 
+nilai:88, 
+keterangan:"LULUS TAHFIDZ" 
+},
+{ 
+nama:"Zaqila Sikotul Mila", 
+nilai:87, 
+keterangan:"LULUS TAHFIDZ" 
+},
+{ 
+nama:"Shifa Lailatul Fajriani", 
+nilai:83, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Latifatul Fadhilah", 
+nilai:85, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Nadia Maulida Husna", 
+nilai:88,
+keterangan:"LULUS" 
+},
+{ 
+nama:"Shoimatul Istiqomah", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Syifa Najwa", 
+nilai:82, 
+keterangan:"LULUS"
+},
+{ 
+nama:"Dela Novita Sari", 
+nilai:87, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Fatimah Az-Zahra", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Zahrelis Tya Nurhidayah", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Khairunnisa Iannur", 
+nilai:85, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Fathiatur Rahmah", 
+nilai:84, 
+keterangan:"LULUS TAHFIDZ" 
+},
+{ 
+nama:"Khalifah", 
+nilai:83, 
+keterangan:"LULUS TAHFIDZ" 
+},
+{ 
+nama:"Nurul Hidayah", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Devi Aulia", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{
+nama:"Nur Kholisoh", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Syifa Ullima Yurid", 
+nilai:84, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Hanny Chandra Kaban", 
+nilai:87, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Zulfa Halimatussa'diyah", 
+nilai:91, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Saskia Aprilia", 
+nilai:91, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Arbaiyah", 
+nilai:90, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Miftahu Zulfa Tunnimah", 
+nilai:93, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Aprilia Bitya Sari", 
+nilai:94, 
+keterangan:"LULUS TAHFIDZ" 
+},
+{ 
+nama:"Linda Rismawati", 
+nilai:89, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Neli Hafidhoh", 
+nilai:87, 
+keterangan:"LULUS TAHFIDZ" 
+},
+{ 
+nama:"Mariyatul Khikiyah", 
+nilai:88, 
+keterangan:"LULUS TAHFIDZ" 
+},
+{ 
+nama:"Alfin Ma Faza", 
+nilai:81, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Hendri Bastian", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Ahmad Saka Arkhan Wiratama", 
+nilai:83, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Nur Salam", 
+nilai:81, 
+keterangan:"LULUS" 
+},
+{
+nama:"M. Al-Faiz", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Baiq Saifullah", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Syafiq Al-Bisri", 
+nilai:84, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Imam Hoirul Iqbal", 
+nilai:83, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Fiqri Nuriyansyah", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Rafi Murdianto", 
+nilai:83, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Muammar Zefri", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Dimas Reski Prayugo", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Ahmad Muzakki", 
+nilai:81, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Shafa Aulia", 
+nilai:83, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Naufal Wafi", 
+nilai:81, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Syafiq Al-Buruni", 
+nilai:82, 
+keterangan:"LULUS"
+},
+{ 
+nama:"M. Al-Rafqi", 
+nilai:81, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Khairul Azmi", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Akbar Nur Dafa", 
+nilai:81, 
+keterangan:"LULUS"
+},
+{ 
+nama:"M. Wahyu Taufikillah", 
+nilai:80, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Raisyan Nurfattah", 
+nilai:83, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Hakim Amrullah", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Ahmad Alwi Murtadho", 
+nilai:81, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Rafi Murdianto", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Zainul Hariri", 
+nilai:87, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Irawan", 
+nilai:83, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Rafiq Maysinul Azam", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Firdaus", 
+nilai:88, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Mirza", 
+nilai:87, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Rido Al Rifaiz", 
+nilai:87, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Adley", 
+nilai:92, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Anggi Pratama", 
+nilai:87, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Ghofur", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Lutfi", 
+nilai:87, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Mujiburrahman", 
+nilai:86, 
+keterangan:"LULUS"
+},
+{ 
+nama:"M. Ansory", 
+nilai:82, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Gunawan", 
+nilai:86, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Dira Sandi Mukti", 
+nilai:87, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"Teungku Gifanda Aglianza Putra", 
+nilai:92, 
+keterangan:"LULUS" 
+},
+{ 
+nama:"M. Marzuki Mansur", 
+nilai:88, 
+keterangan:"LULUS TAHFIDZ" 
+},
+
+];
+
+//==================================
+
+function cekData(){
+
+let input=document.getElementById("nama").value.trim().toLowerCase();
+
+let hasil=document.getElementById("hasil");
+
+let pesan=document.getElementById("pesan");
+
+let data=santri.find(s=>s.nama.toLowerCase().includes(input));
+
+if(data){
+
+hasil.style.display="block";
+
+pesan.innerHTML="";
+
+document.getElementById("namaSantri").innerHTML=data.nama;
+
+document.getElementById("nilaiSantri").innerHTML=data.nilai;
+
+if(data.keterangan=="LULUS"){
+
+document.getElementById("keterangan").innerHTML=
+'<span class="badge lulus">LULUS</span>';
+
+}else{
+
+document.getElementById("keterangan").innerHTML=
+'<span class="badge tahfidz">LULUS TAHFIDZ</span>';
+
+}
+
+let isi="";
+
+let no=1;
+
+santri.forEach(function(item){
+
+if(item.keterangan.includes("LULUS")){
+
+isi+=`
+
+<tr>
+
+<td>${no++}</td>
+
+<td>${item.nama}</td>
+
+<td>${item.nilai}</td>
+
+<td>${item.keterangan}</td>
+
+</tr>
+
+`;
+
+}
+
+});
+
+document.getElementById("tabelLulus").innerHTML=isi;
+
+}else{
+
+hasil.style.display="none";
+
+pesan.innerHTML="Nama santri tidak ditemukan.";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
